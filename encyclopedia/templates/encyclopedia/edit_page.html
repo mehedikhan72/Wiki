@@ -5,13 +5,13 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Edit page!</h1>
+    <h1>Edit '{{ title_name }}'</h1>
     <br>
-    <form action="/new_page" method="POST">
+    <form action="edit_page" method="POST">
         {% csrf_token %}
-        <p>Title: <input type="text" name="title" style="width: 50%" required></p>
+        <input type="hidden" name="title" value="{{title_name}}" style="width: 50%">
         <br>
-        <p>Markdown content: </p><textarea style="height: 600px; resize: none" name="md_content" required></textarea>
+        <p>Markdown content: </p><textarea style="height: 600px; resize: none" name="md_content" required>{{ md_content }}</textarea>
         <br>
         <input type="submit" value="Save">
     </form>

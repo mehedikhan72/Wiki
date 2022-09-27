@@ -7,7 +7,7 @@
 {% block body %}
     <h1>Create a new page!</h1>
     <br>
-    <form action="/new_page" method="POST">
+    <form action="new_page" method="POST">
         {% csrf_token %}
         <p>Title: <input type="text" name="title" style="width: 50%" required></p>
         <br>
