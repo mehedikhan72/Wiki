@@ -13,8 +13,11 @@ def index(request):
     if request.method == "POST":
         title_name = request.POST.get("q")
         if util.get_entry(title_name):
+            page = util.get_entry(title_name)
+            converted_page = markdown2.markdown(page)
             return render(request, "encyclopedia/entry.html", {
-                "entries" : util.get_entry(title_name)
+                "title_name" : title_name,
+                "converted_page" : converted_page
             })
         else:
             sub_list = []
@@ -72,12 +75,11 @@ def new_page(request):
                 })
 
         util.save_entry(title_name, md_content)
-        #TODO: Redirecting user to home for now, but need to redirect user to the page they just created.
         return redirect('title', title_name)
         
     return render(request, "encyclopedia/new_page.html")
 
-def edit_page(request):
+def edit_page(request, title_name):
     if request.method == "POST":
         md_content = request.POST.get("md_content")
         title_name = request.POST.get("title")
@@ -86,14 +88,8 @@ def edit_page(request):
             return render(request, "encyclopedia/error.html",{
                 "message" : "Must provide md_content."
             })
-        util.save_entry(title_name, md_content)
+        util.save_entry(title_name, bytes(md_content, 'utf8'))
         return redirect('title', title_name)
-        
-    pre_url = request.META.get('HTTP_REFERER')
-    title_name = ""
-    for i in range(len(pre_url)):
-        if i > 26 and i < len(pre_url) - 1:
-            title_name += pre_url[i]
 
     md_content = util.get_entry(title_name)
     return render(request, "encyclopedia/edit_page.html",{

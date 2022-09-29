@@ -5,8 +5,7 @@
 {% endblock %}
 
 {% block body %}
-
          {{ converted_page | safe }} 
         <br>
-        <a href="{% url 'edit_page' %}">Edit this page.</a>
+        <a href="{% url 'edit_page' title_name %}">Edit this page.</a>
 {% endblock %}
